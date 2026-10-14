@@ -14,7 +14,14 @@ public class FavoritePlaceEntity: NSManagedObject {
 }
 
 
-// MARK: - Fetch Request and Safe Values
+// MARK: - Identifiable
+
+extension FavoritePlaceEntity: Identifiable {
+
+}
+
+
+// MARK: - Fetch Request
 
 extension FavoritePlaceEntity {
 
@@ -28,27 +35,31 @@ extension FavoritePlaceEntity {
 
 
     var wrappedName: String {
+
         name ?? "Unknown Place"
     }
 
 
     var wrappedCategory: String {
+
         category ?? "Unknown"
     }
 
 
     var wrappedDescription: String {
+
         placeDescription ?? ""
     }
 
 
     var wrappedImageName: String {
+
         imageName ?? ""
     }
 }
 
 
-// MARK: - Convert Core Data Entity to Place
+// MARK: - Convert Core Data Object to Place
 
 extension FavoritePlaceEntity {
 
