@@ -4,6 +4,13 @@ struct HomeView: View {
 
     @State private var searchText = ""
 
+    private let quickActionColumns = [
+        GridItem(
+            .adaptive(minimum: 150),
+            spacing: 14
+        )
+    ]
+
 
     private var filteredPlaces: [Place] {
 
@@ -47,7 +54,6 @@ struct HomeView: View {
                         Text("Smart Campus")
                             .font(.largeTitle)
                             .fontWeight(.bold)
-
 
                         Text(
                             "Find your way around campus"
@@ -101,6 +107,9 @@ struct HomeView: View {
                         }
                     }
                     .campusCardStyle()
+                    .accessibilityElement(
+                        children: .contain
+                    )
 
 
                     // MARK: - Quick Access
@@ -110,7 +119,11 @@ struct HomeView: View {
                         .fontWeight(.semibold)
 
 
-                    HStack(spacing: 14) {
+                    LazyVGrid(
+                        columns:
+                            quickActionColumns,
+                        spacing: 14
+                    ) {
 
                         NavigationLink {
 
@@ -119,10 +132,13 @@ struct HomeView: View {
                         } label: {
 
                             QuickActionCard(
-                                title: "Campus Map",
-                                icon: "map.fill"
+                                title:
+                                    "Campus Map",
+                                icon:
+                                    "map.fill"
                             )
                         }
+                        .buttonStyle(.plain)
 
 
                         NavigationLink {
@@ -132,14 +148,17 @@ struct HomeView: View {
                         } label: {
 
                             QuickActionCard(
-                                title: "Saved Places",
-                                icon: "heart.fill"
+                                title:
+                                    "Saved Places",
+                                icon:
+                                    "heart.fill"
                             )
                         }
+                        .buttonStyle(.plain)
                     }
 
 
-                    // MARK: - Campus Locations
+                    // MARK: - Locations
 
                     Text("Campus Locations")
                         .font(.title2)
@@ -159,7 +178,9 @@ struct HomeView: View {
 
                     } else {
 
-                        LazyVStack(spacing: 12) {
+                        LazyVStack(
+                            spacing: 12
+                        ) {
 
                             ForEach(
                                 filteredPlaces
@@ -206,12 +227,16 @@ struct QuickActionCard: View {
 
         VStack(spacing: 12) {
 
-            Image(systemName: icon)
-                .font(.system(size: 28))
-                .foregroundStyle(
-                    AppTheme.accentColor
-                )
-                .accessibilityHidden(true)
+            Image(
+                systemName: icon
+            )
+            .font(
+                .system(size: 28)
+            )
+            .foregroundStyle(
+                AppTheme.accentColor
+            )
+            .accessibilityHidden(true)
 
 
             Text(title)
@@ -222,8 +247,10 @@ struct QuickActionCard: View {
                     .center
                 )
         }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 18)
+        .frame(
+            maxWidth: .infinity,
+            minHeight: 100
+        )
         .campusCardStyle()
         .accessibilityElement(
             children: .combine
