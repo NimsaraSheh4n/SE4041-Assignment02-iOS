@@ -4,20 +4,22 @@ import MapKit
 struct CampusMapView: View {
 
     @State private var selectedPlace: Place?
+
     @State private var selectedCategory = "All"
 
-    @State private var position: MapCameraPosition = .region(
-        MKCoordinateRegion(
-            center: CLLocationCoordinate2D(
-                latitude: 6.9147,
-                longitude: 79.9731
-            ),
-            span: MKCoordinateSpan(
-                latitudeDelta: 0.004,
-                longitudeDelta: 0.004
+    @State private var position: MapCameraPosition =
+        .region(
+            MKCoordinateRegion(
+                center: CLLocationCoordinate2D(
+                    latitude: 6.9147,
+                    longitude: 79.9731
+                ),
+                span: MKCoordinateSpan(
+                    latitudeDelta: 0.006,
+                    longitudeDelta: 0.006
+                )
             )
         )
-    )
 
 
     private let categories = [
@@ -47,7 +49,7 @@ struct CampusMapView: View {
 
         ZStack(alignment: .bottom) {
 
-            // MARK: - Map
+            // MARK: - Campus Map
 
             Map(position: $position) {
 
@@ -66,60 +68,91 @@ struct CampusMapView: View {
                                     dampingFraction: 0.75
                                 )
                             ) {
+
                                 selectedPlace = place
                             }
 
                         } label: {
 
-                            VStack(spacing: 2) {
+                            VStack(spacing: 4) {
 
                                 Image(
                                     systemName:
-                                        selectedPlace?.id == place.id
-                                        ? "mappin.circle.fill"
-                                        : "mappin.circle"
+                                        categoryIcon(
+                                            for:
+                                                place.category
+                                        )
                                 )
                                 .font(
-                                    .system(size: 34)
+                                    .system(size: 18)
                                 )
-                                .foregroundStyle(
-                                    selectedPlace?.id == place.id
-                                    ? .blue
-                                    : .red
+                                .foregroundStyle(.white)
+                                .frame(
+                                    width: 40,
+                                    height: 40
+                                )
+                                .background(
+                                    Circle()
+                                        .fill(
+                                            selectedPlace?.id
+                                            == place.id
+                                            ? Color.indigo
+                                            : AppTheme.accentColor
+                                        )
+                                )
+                                .shadow(
+                                    radius: 4
                                 )
 
-                                if selectedPlace?.id == place.id {
+
+                                if selectedPlace?.id
+                                    == place.id {
 
                                     Text(place.name)
                                         .font(.caption2)
                                         .fontWeight(.semibold)
-                                        .foregroundStyle(.primary)
-                                        .padding(.horizontal, 8)
-                                        .padding(.vertical, 4)
+                                        .foregroundStyle(
+                                            .primary
+                                        )
+                                        .padding(
+                                            .horizontal,
+                                            8
+                                        )
+                                        .padding(
+                                            .vertical,
+                                            4
+                                        )
                                         .background(
-                                            .ultraThinMaterial,
-                                            in: Capsule()
+                                            .regularMaterial,
+                                            in:
+                                                Capsule()
                                         )
                                 }
                             }
                         }
                         .buttonStyle(.plain)
-                        .accessibilityLabel(place.name)
+                        .accessibilityLabel(
+                            "\(place.name), \(place.category)"
+                        )
                         .accessibilityHint(
-                            "Select this campus location"
+                            "Shows location information"
                         )
                     }
                 }
             }
             .mapStyle(.standard)
             .mapControls {
+
                 MapCompass()
+
                 MapScaleView()
             }
-            .ignoresSafeArea(edges: .bottom)
+            .ignoresSafeArea(
+                edges: .bottom
+            )
 
 
-            // MARK: - Category Filter
+            // MARK: - Top Category Filters
 
             VStack {
 
@@ -138,7 +171,9 @@ struct CampusMapView: View {
                             Button {
 
                                 withAnimation(
-                                    .easeInOut(duration: 0.2)
+                                    .easeInOut(
+                                        duration: 0.2
+                                    )
                                 ) {
 
                                     selectedCategory =
@@ -150,9 +185,11 @@ struct CampusMapView: View {
                             } label: {
 
                                 Text(category)
-                                    .font(.subheadline)
+                                    .font(
+                                        .subheadline
+                                    )
                                     .fontWeight(
-                                        .semibold
+                                        .medium
                                     )
                                     .padding(
                                         .horizontal,
@@ -160,19 +197,20 @@ struct CampusMapView: View {
                                     )
                                     .padding(
                                         .vertical,
-                                        9
+                                        8
                                     )
                                     .foregroundStyle(
                                         selectedCategory
-                                            == category
+                                        == category
                                         ? .white
                                         : .primary
                                     )
                                     .background(
+
                                         Capsule()
                                             .fill(
                                                 selectedCategory
-                                                    == category
+                                                == category
                                                 ? AppTheme
                                                     .accentColor
                                                 : Color(
@@ -182,41 +220,56 @@ struct CampusMapView: View {
                                     )
                             }
                             .buttonStyle(.plain)
+                            .accessibilityLabel(
+                                "\(category) category"
+                            )
                         }
                     }
-                    .padding(.horizontal)
+                    .padding(
+                        .horizontal,
+                        AppTheme.standardPadding
+                    )
                 }
+                .padding(.top, 10)
+
 
                 Spacer()
             }
-            .padding(.top, 8)
 
 
             // MARK: - Selected Place Card
 
             if let selectedPlace {
 
-                VStack(spacing: 14) {
+                VStack(
+                    alignment: .leading,
+                    spacing: 14
+                ) {
 
-                    HStack {
+                    HStack(
+                        alignment: .top,
+                        spacing: 12
+                    ) {
 
                         Image(
                             systemName:
                                 categoryIcon(
                                     for:
-                                        selectedPlace
-                                            .category
+                                        selectedPlace.category
                                 )
                         )
-                        .font(.system(size: 24))
+                        .font(
+                            .system(size: 24)
+                        )
                         .foregroundStyle(
                             AppTheme.accentColor
                         )
                         .frame(
-                            width: 48,
-                            height: 48
+                            width: 50,
+                            height: 50
                         )
                         .background(
+
                             RoundedRectangle(
                                 cornerRadius: 14
                             )
@@ -231,7 +284,7 @@ struct CampusMapView: View {
 
                         VStack(
                             alignment: .leading,
-                            spacing: 5
+                            spacing: 4
                         ) {
 
                             Text(
@@ -255,11 +308,7 @@ struct CampusMapView: View {
 
                         Button {
 
-                            withAnimation(
-                                .easeOut(
-                                    duration: 0.2
-                                )
-                            ) {
+                            withAnimation {
 
                                 self.selectedPlace =
                                     nil
@@ -271,7 +320,6 @@ struct CampusMapView: View {
                                 systemName:
                                     "xmark.circle.fill"
                             )
-                            .font(.title3)
                             .foregroundStyle(
                                 .secondary
                             )
@@ -288,30 +336,39 @@ struct CampusMapView: View {
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                     .lineLimit(2)
-                    .frame(
-                        maxWidth: .infinity,
-                        alignment: .leading
-                    )
 
 
                     NavigationLink {
 
                         PlaceDetailView(
-                            place:
-                                selectedPlace
+                            place: selectedPlace
                         )
 
                     } label: {
 
-                        Text("View Details")
-                            .primaryActionStyle()
+                        HStack {
+
+                            Text(
+                                "View Place Details"
+                            )
+
+                            Spacer()
+
+                            Image(
+                                systemName:
+                                    "arrow.right"
+                            )
+                        }
+                        .primaryActionStyle()
                     }
+                    .buttonStyle(.plain)
                 }
                 .campusCardStyle()
-                .padding()
-                .background(
-                    .ultraThinMaterial
+                .padding(
+                    .horizontal,
+                    AppTheme.standardPadding
                 )
+                .padding(.bottom, 12)
                 .transition(
                     .move(edge: .bottom)
                     .combined(
@@ -321,7 +378,9 @@ struct CampusMapView: View {
             }
         }
         .navigationTitle("Campus Map")
-        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarTitleDisplayMode(
+            .inline
+        )
     }
 
 
@@ -350,6 +409,12 @@ struct CampusMapView: View {
 
         case "Student Services":
             return "person.2.fill"
+
+        case "Recreation":
+            return "figure.run"
+
+        case "Parking":
+            return "car.fill"
 
         default:
             return "mappin.circle.fill"
