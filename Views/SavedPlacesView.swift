@@ -3,12 +3,9 @@ import CoreData
 
 struct SavedPlacesView: View {
 
-    // Core Data Context
     @Environment(\.managedObjectContext)
     private var viewContext
 
-
-    // Fetch Saved Places
     @FetchRequest(
         sortDescriptors: [
             NSSortDescriptor(
@@ -26,20 +23,28 @@ struct SavedPlacesView: View {
 
         Group {
 
-            // Empty State
             if savedPlaces.isEmpty {
 
-                ContentUnavailableView(
-                    "No Saved Places",
-                    systemImage: "heart.slash",
-                    description: Text(
-                        "Places you save will appear here."
+                // MARK: - Empty State
+
+                ContentUnavailableView {
+
+                    Label(
+                        "No Saved Places",
+                        systemImage: "heart.slash"
                     )
-                )
+
+                } description: {
+
+                    Text(
+                        "Save important campus locations and they will appear here."
+                    )
+                }
 
             } else {
 
-                // Saved Places List
+                // MARK: - Saved Places List
+
                 List {
 
                     ForEach(savedPlaces) { savedPlace in
@@ -52,16 +57,33 @@ struct SavedPlacesView: View {
 
                         } label: {
 
-                            savedPlaceRow(savedPlace)
+                            savedPlaceRow(
+                                savedPlace
+                            )
                         }
+                        .accessibilityLabel(
+                            "\(savedPlace.wrappedName), \(savedPlace.wrappedCategory)"
+                        )
+                        .accessibilityHint(
+                            "Opens saved location details"
+                        )
                     }
-                    .onDelete(perform: deletePlaces)
+                    .onDelete(
+                        perform: deletePlaces
+                    )
                 }
                 .listStyle(.plain)
             }
         }
         .navigationTitle("Saved Places")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+
+            if !savedPlaces.isEmpty {
+
+                EditButton()
+            }
+        }
     }
 
 
@@ -74,17 +96,33 @@ struct SavedPlacesView: View {
         HStack(spacing: 14) {
 
             Image(
-                systemName: iconName(
-                    for: savedPlace.wrappedCategory
-                )
+                systemName:
+                    iconName(
+                        for:
+                            savedPlace
+                                .wrappedCategory
+                    )
             )
             .font(.system(size: 22))
-            .foregroundStyle(.blue)
-            .frame(width: 46, height: 46)
-            .background(
-                RoundedRectangle(cornerRadius: 13)
-                    .fill(Color.blue.opacity(0.12))
+            .foregroundStyle(
+                AppTheme.accentColor
             )
+            .frame(
+                width: 48,
+                height: 48
+            )
+            .background(
+
+                RoundedRectangle(
+                    cornerRadius: 14
+                )
+                .fill(
+                    AppTheme
+                        .accentColor
+                        .opacity(0.12)
+                )
+            )
+            .accessibilityHidden(true)
 
 
             VStack(
@@ -92,24 +130,46 @@ struct SavedPlacesView: View {
                 spacing: 5
             ) {
 
-                Text(savedPlace.wrappedName)
-                    .font(.headline)
+                Text(
+                    savedPlace.wrappedName
+                )
+                .font(.headline)
 
-                Text(savedPlace.wrappedCategory)
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
 
-                if !savedPlace.wrappedDescription.isEmpty {
+                Text(
+                    savedPlace.wrappedCategory
+                )
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
 
-                    Text(savedPlace.wrappedDescription)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .lineLimit(1)
+
+                if !savedPlace
+                    .wrappedDescription
+                    .isEmpty {
+
+                    Text(
+                        savedPlace
+                            .wrappedDescription
+                    )
+                    .font(.caption)
+                    .foregroundStyle(
+                        .secondary
+                    )
+                    .lineLimit(2)
                 }
             }
 
 
             Spacer()
+
+
+            Image(
+                systemName:
+                    "chevron.right"
+            )
+            .font(.caption)
+            .foregroundStyle(.secondary)
+            .accessibilityHidden(true)
         }
         .padding(.vertical, 6)
     }
@@ -124,8 +184,12 @@ struct SavedPlacesView: View {
         withAnimation {
 
             offsets
-                .map { savedPlaces[$0] }
-                .forEach(viewContext.delete)
+                .map {
+                    savedPlaces[$0]
+                }
+                .forEach(
+                    viewContext.delete
+                )
 
 
             do {
@@ -167,6 +231,12 @@ struct SavedPlacesView: View {
 
         case "Student Services":
             return "person.2.fill"
+
+        case "Recreation":
+            return "figure.run"
+
+        case "Parking":
+            return "car.fill"
 
         default:
             return "mappin.circle.fill"
