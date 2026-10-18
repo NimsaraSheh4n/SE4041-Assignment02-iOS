@@ -26,26 +26,35 @@ The purpose of User Acceptance Testing (UAT) is to verify that the Smart Campus 
 
 ---
 
+## Result Key
+
+- **PASS** - checked by the developer in the iOS Simulator during the final Xcode session.
+- **Not recorded** - not formally checked and recorded; no result is claimed.
+
+---
+
 ## UAT Test Cases
 
 | Test ID | Feature | Test Procedure | Expected Result | Status |
 |---|---|---|---|---|
-| UAT-01 | App Launch | Launch the application | Home screen should load successfully | Pending |
-| UAT-02 | Home Screen | View the Home screen | App title, search, quick actions and campus locations should appear | Pending |
-| UAT-03 | Search | Search for "Library" | Library locations should be displayed | Pending |
-| UAT-04 | Search by Category | Search for "Cafeteria" | Cafeteria locations should appear | Pending |
-| UAT-05 | Campus Map | Tap Campus Map | Interactive campus map should open | Pending |
-| UAT-06 | Map Marker | Tap a location marker | Location preview card should appear | Pending |
-| UAT-07 | Map Category Filter | Select a category | Only locations from that category should remain visible | Pending |
-| UAT-08 | Place Details | Open a location | Place Details screen should display information and map preview | Pending |
-| UAT-09 | Save Favourite | Tap Save to Favourites | Location should be stored in Core Data | Pending |
-| UAT-10 | Saved Places | Open Saved Places | Previously saved location should appear | Pending |
-| UAT-11 | Persistent Storage | Close and reopen the application | Saved favourite should still be available | Pending |
-| UAT-12 | Remove Favourite | Remove a saved location | Location should disappear from Saved Places | Pending |
-| UAT-13 | Swipe Delete | Swipe to delete a saved place | Saved place should be deleted successfully | Pending |
-| UAT-14 | Dark Mode | Enable iOS Dark Mode | Interface should remain readable and visually consistent | Pending |
-| UAT-15 | Dynamic Type | Increase system text size | Text should scale without breaking the layout | Pending |
-| UAT-16 | Accessibility | Use VoiceOver to navigate key controls | Controls should provide meaningful accessibility labels | Pending |
+| UAT-01 | App Launch | Launch the application | Home screen should load successfully | PASS |
+| UAT-02 | Home Screen | View the Home screen | App title, search, quick actions and campus locations should appear | PASS |
+| UAT-03 | Search | Search for "Library" | Library locations should be displayed | PASS (basic search) |
+| UAT-04 | Search by Category | Search for "Cafeteria" | Cafeteria locations should appear | Not recorded |
+| UAT-05 | Campus Map | Tap Campus Map | Interactive campus map should open | PASS (navigation) |
+| UAT-06 | Map Marker | Tap a location marker | Location preview card should appear | Not recorded |
+| UAT-07 | Map Category Filter | Select a category | Only locations from that category should remain visible | Not recorded |
+| UAT-08 | Place Details | Open a location | Place Details screen should open | PASS (navigation) |
+| UAT-09 | Save Favourite | Tap Save to Favourites | Location should be stored in Core Data | Not recorded |
+| UAT-10 | Saved Places | Open Saved Places | Saved Places screen should open | PASS (navigation) |
+| UAT-11 | Persistent Storage | Close and reopen the application | Saved favourite should still be available | Not recorded |
+| UAT-12 | Remove Favourite | Remove a saved location | Location should disappear from Saved Places | Not recorded |
+| UAT-13 | Swipe Delete | Swipe to delete a saved place | Saved place should be deleted successfully | Not recorded |
+| UAT-14 | Dark Mode | Enable iOS Dark Mode | Interface should remain readable and visually consistent | Not recorded |
+| UAT-15 | Dynamic Type | Increase system text size | Text should scale without breaking the layout | Not recorded |
+| UAT-16 | Accessibility | Use VoiceOver to navigate key controls | Controls should provide meaningful accessibility labels | Not recorded |
+
+> The app was launched and navigated through Home, Campus Map, Place Details and Saved Places in the simulator. Accessibility changes made after that session (scalable icon sizes and accessibility identifiers) have not yet been re-checked in the simulator.
 
 ---
 
@@ -67,7 +76,7 @@ Test users will evaluate the application based on:
 
 ## Participant Feedback
 
-User feedback will be recorded after testing on the final iOS Simulator build.
+No external participant feedback has been collected. The questions below are a template for any future user evaluation.
 
 ### Feedback Questions
 
@@ -83,6 +92,8 @@ User feedback will be recorded after testing on the final iOS Simulator build.
 
 ## Final Testing Status
 
-UAT will be completed after the application is built and tested using Xcode and the iPhone Simulator.
+> Formal external-user UAT was not conducted during the final development session. Simulator-based developer acceptance checks were completed.
 
-The final results will be updated from **Pending** to **Pass** or **Fail** after testing.
+The application built and ran in Xcode on macOS, and the developer verified launch, the Home screen, basic search and navigation to the Campus Map, Place Details and Saved Places in the iOS Simulator.
+
+Rows marked **Not recorded** have no result claimed and should be updated only after they are actually tested.
