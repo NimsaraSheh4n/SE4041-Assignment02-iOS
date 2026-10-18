@@ -85,22 +85,19 @@ All screens are reached through a single `NavigationStack` that starts at Home.
 
 ---
 
-## Important: Xcode project file
+## Xcode Project
 
-> **The committed Xcode project file (`SmartCampusNavigator.xcodeproj`) still needs to be restored into `XcodeProject/` before this repository is fully buildable straight from GitHub.**
->
-> The project was built, run and tested successfully in Xcode on macOS, but the `.xcodeproj` is not currently present in this repository. See [docs/XcodeMigrationChecklist.md](docs/XcodeMigrationChecklist.md) for the steps.
+The Xcode project is available and restored in this repository.
 
-The Swift source files are present twice: in the top-level folders (`App/`, `Views/`, ...) and in `XcodeProject/`. The copies are intended to be identical.
+The official opening path is:
+`XcodeProject/SmartCampusNavigator.xcodeproj`
 
 ---
 
 ## Build, Run and Test
 
-Once `SmartCampusNavigator.xcodeproj` is in `XcodeProject/`:
-
 1. Clone the repository and open `XcodeProject/SmartCampusNavigator.xcodeproj` in Xcode.
-2. Select the **SmartCampusNavigator** scheme and an iPhone Simulator.
+2. Select the **SmartCampusNavigator** scheme and an iPhone Simulator (iOS 17+).
 3. Press **Cmd + R** to build and run.
 4. Press **Cmd + U** to run the unit tests and UI tests.
 
@@ -112,8 +109,6 @@ xcodebuild test \
   -scheme SmartCampusNavigator \
   -destination 'platform=iOS Simulator,name=iPhone 15'
 ```
-
-If the project file is not yet available, follow [docs/XcodeMigrationChecklist.md](docs/XcodeMigrationChecklist.md) to recreate it and attach the existing source and test files.
 
 ---
 
@@ -180,7 +175,7 @@ SE4041-Assignment02-iOS/
 │   └── SmartCampusNavigatorTests.swift
 ├── UITests/
 │   └── SmartCampusNavigatorUITests.swift
-├── XcodeProject/            (copy of the sources + assets; .xcodeproj to be restored here)
+├── XcodeProject/            (contains SmartCampusNavigator.xcodeproj, sources, tests and assets)
 │   ├── Assets.xcassets/
 │   ├── ContentView.swift    (unused Xcode template file)
 │   ├── SmartCampusNavigatorApp.swift
